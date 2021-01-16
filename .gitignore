@@ -1,2 +1,8 @@
 .idea/
 *.iml
+
+# Java Binaries
+target/
+
+# VS Code
+.vscode
