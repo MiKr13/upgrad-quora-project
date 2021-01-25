@@ -4,3 +4,6 @@
 
 # Java Binaries
 target/
+
+# VS Code
+.vscode
