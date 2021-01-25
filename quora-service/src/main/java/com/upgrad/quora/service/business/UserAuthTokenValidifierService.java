@@ -1,6 +1,6 @@
 package com.upgrad.quora.service.business;
 
-import com.upgrad.quora.service.common.EndPointIdentifier;
+import com.upgrad.quora.service.common.EndPointErrorMessage;
 import com.upgrad.quora.service.dao.UserDao;
 import com.upgrad.quora.service.entity.UserAuthTokenEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,17 +9,18 @@ import org.springframework.stereotype.Service;
 import java.time.ZonedDateTime;
 
 /**
- * Method to provide service for validating a user authentication token through a access token
+ * Method to provide service for validating a user authentication token through
+ * a access token
  */
 @Service
-public class UserAuthTokenValidifierService implements EndPointIdentifier {
-
+public class UserAuthTokenValidifierService extends EndPointErrorMessage {
 
     @Autowired
     UserDao userDao;
 
     /**
-     * @param  authorizationToken the first {@code String} to check if the access is available.
+     * @param authorizationToken the first {@code String} to check if the access is
+     *                           available.
      * @return true or false
      */
     boolean userSignOutStatus(String authorizationToken) {
@@ -28,7 +29,8 @@ public class UserAuthTokenValidifierService implements EndPointIdentifier {
         ZonedDateTime loggedInStatus = userAuthTokenEntity.getLoginAt();
         if (loggedOutStatus != null && loggedOutStatus.isAfter(loggedInStatus)) {
             return true;
-        } else return false;
+        } else
+            return false;
     }
 
 }
