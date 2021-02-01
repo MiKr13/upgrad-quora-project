@@ -1,4 +1,4 @@
-/*package com.upgrad.quora.api.controller;
+package com.upgrad.quora.api.controller;
 
 
 import org.junit.Test;
@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 
-public class QuestionControllerTest {
+public class QuestionServiceControllerTest {
 
     @Autowired
     private MockMvc mvc;
@@ -154,4 +154,3 @@ public class QuestionControllerTest {
 
 
 }
-*/

@@ -76,6 +76,12 @@ public class PasswordCryptographyProvider {
         }
     }
 
+    /**
+     * This method converts bytes to hex value
+     *
+     * @param bytes byte array
+     * @return hexadecimal string
+     */
     private static String bytesToHex(byte[] bytes) {
         char[] hexChars = new char[bytes.length * 2];
         for (int j = 0; j < bytes.length; j++) {
@@ -86,10 +92,22 @@ public class PasswordCryptographyProvider {
         return new String(hexChars);
     }
 
+    /**
+     * This method encodes bytes to base64 string
+     *
+     * @param bytes bytes array
+     * @return base64 string
+     */
     private static String getBase64EncodedBytesAsString(byte bytes[]) {
         return Base64.getEncoder().encodeToString(bytes);
     }
 
+    /**
+     * This method decodes base64 string to byes array
+     *
+     * @param decode base64 string
+     * @return bytes array
+     */
     private static byte[] getBase64DecodedStringAsBytes(String decode) {
         return Base64.getDecoder().decode(decode);
     }

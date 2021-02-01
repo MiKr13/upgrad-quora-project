@@ -13,6 +13,9 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 
+/**
+ * Entity for user_auth table
+ */
 @Entity
 @Table(name = "user_auth")
 @NamedQueries({

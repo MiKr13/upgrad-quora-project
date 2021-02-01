@@ -1,11 +1,10 @@
 package com.upgrad.quora.api.controller;
 
 import com.upgrad.quora.api.model.*;
-import com.upgrad.quora.service.business.Question;
+import com.upgrad.quora.service.business.QuestionService;
 import com.upgrad.quora.service.entity.QuestionEntity;
 import com.upgrad.quora.service.exception.AuthorizationFailedException;
 import com.upgrad.quora.service.exception.InvalidQuestionException;
-import com.upgrad.quora.service.exception.SignUpRestrictedException;
 import com.upgrad.quora.service.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,12 +22,12 @@ import java.util.UUID;
 public class QuestionController {
 
     @Autowired
-    private Question questionService;
+    private QuestionService questionService;
     /**
      * This api endpoint is used to post a new question
      *
-     * @param QuestionRequest   question details for adding new question in QuestionRequest model
-     *        authorization string authererisation token
+     * @param questionRequest - question details for adding new question in QuestionRequest model
+     * @param authorization - authorization token of user
      *
      * @return JSON response with user uuid and message
      *
@@ -53,7 +52,6 @@ public class QuestionController {
      * This api endpoint is used to show all posted questions
      *
      * @param  authorization string authererisation token
-     *
      *
      * @return JSON response with user uuid and message
      *
@@ -82,8 +80,9 @@ public class QuestionController {
     /**
      * This api endpoint is used to edit question
      *
-     * @param QuestionEditRequest  question details for editing exiting question
-     *        authorization string authererisation token
+     * @param questionEditRequest - question details for editing exiting question
+     * @param questionId - question id for which the edit request is processed
+     * @param authorization - authorization token of user
      *
      * @return JSON response with user uuid and message
      *
@@ -105,13 +104,13 @@ public class QuestionController {
     /**
      * This api endpoint is used to Delete  question
      *
-     * @param questionId string questionId details for deleting exiting question
-     *        authorization string authererisation token
+     * @param questionId - questionId details for deleting exiting question
+     * @param authorization - authorization token of user
      *
      * @return JSON response with user uuid and message
      *
      * @throws AuthorizationFailedException if validation for user details conflicts
-     * @throws    InvalidQuestionException if question doesn`t exist
+     * @throws InvalidQuestionException if question doesn`t exist
      */
     @RequestMapping(method = RequestMethod.DELETE, path = "/question/delete/{questionId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<QuestionDeleteResponse> deleteQuestion(@PathVariable("questionId") final String questionId, @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, InvalidQuestionException {
@@ -124,7 +123,17 @@ public class QuestionController {
         return new ResponseEntity<QuestionDeleteResponse>(questionDeleteResponse, HttpStatus.OK);
     }
 
-
+    /**
+     * This api endpoint is used to get all questions created by an user
+     *
+     * @param userId - user id for which questions to be retrieved
+     * @param authorization - authorization token of user
+     *
+     * @return JSON response with all questions of an user
+     *
+     * @throws AuthorizationFailedException if validation for user details conflicts
+     * @throws UserNotFoundException if user doesn't exist
+     */
     @RequestMapping(method = RequestMethod.GET, path ="/question/all/{userId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<QuestionDetailsResponse>> getAllQuestionsByUser(@PathVariable("userId") final String userId, @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, UserNotFoundException {
 

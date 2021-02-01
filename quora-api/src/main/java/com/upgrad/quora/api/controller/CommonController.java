@@ -21,6 +21,8 @@ public class CommonController {
     private UserCommonService userCommonssService;
 
     /**
+     * userProfile - gets profile of an user
+     *
      * @param userUuid    the first {@code String} to check user profile.
      * @param accessToken the second {@code String} to check if the access is
      *                    available.

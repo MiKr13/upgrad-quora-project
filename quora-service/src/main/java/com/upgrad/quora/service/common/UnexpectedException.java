@@ -5,6 +5,9 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.text.MessageFormat;
 
+/**
+ * UnexpectedException to handle other exceptions from the defined exceptions
+ */
 public class UnexpectedException extends RuntimeException {
 
     private static final long serialVersionUID = 2737472949025937415L;

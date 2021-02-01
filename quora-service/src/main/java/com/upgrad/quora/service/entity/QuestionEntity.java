@@ -6,6 +6,9 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 
+/**
+ * Entity for question table
+ */
 @Entity
 @Table(name = "question")
 @NamedQueries(

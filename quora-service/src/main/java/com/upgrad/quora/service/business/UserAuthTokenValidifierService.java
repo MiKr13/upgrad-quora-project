@@ -1,6 +1,5 @@
 package com.upgrad.quora.service.business;
 
-import com.upgrad.quora.service.common.EndPointErrorMessage;
 import com.upgrad.quora.service.dao.UserDao;
 import com.upgrad.quora.service.entity.UserAuthTokenEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,7 @@ import java.time.ZonedDateTime;
  * a access token
  */
 @Service
-public class UserAuthTokenValidifierService extends EndPointErrorMessage {
+public class UserAuthTokenValidifierService {
 
     @Autowired
     UserDao userDao;

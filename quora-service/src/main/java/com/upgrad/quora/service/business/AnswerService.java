@@ -31,6 +31,16 @@ public class AnswerService {
     @Autowired
     private AnswerDao answerDao;
 
+    /**
+     * This method helps to create answer for the question
+     *
+     * @param answerEntity answer entity to be created
+     * @param questionId question id to which answer is created
+     * @param authorization auth token of user
+     * @return persisted answer entity
+     * @throws AuthorizationFailedException if user auth validation failed
+     * @throws InvalidQuestionException if question validation failed
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public AnswerEntity createAnswer(final AnswerEntity answerEntity, final String questionId, final String authorization) throws AuthorizationFailedException, InvalidQuestionException {
         UserAuthTokenEntity userAuthEntity = userDao.getUserAuthToken(authorization);
@@ -59,6 +69,15 @@ public class AnswerService {
         return answerDao.createAnswer(answerEntity);
     }
 
+    /**
+     * This method helps to update the answer content
+     *
+     * @param answerEntity modified answer entity
+     * @param authorization auth token of user
+     * @return updated answer entity
+     * @throws AuthorizationFailedException if user auth validation failed
+     * @throws AnswerNotFoundException if answer validation failed
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public AnswerEntity editAnswerContent(final AnswerEntity answerEntity, final String authorization) throws AuthorizationFailedException, AnswerNotFoundException {
         UserAuthTokenEntity userAuthEntity = userDao.getUserAuthToken(authorization);
@@ -93,6 +112,14 @@ public class AnswerService {
         return answerDao.editAnswerContent(answerEntity);
     }
 
+    /**
+     * This method helps to delete an answer
+     *
+     * @param answerId answer id to be deleted
+     * @param authorization auth token of user
+     * @throws AuthorizationFailedException if user auth validation failed
+     * @throws AnswerNotFoundException if answer validation failed
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public void deleteAnswer(final String answerId, final String authorization) throws AuthorizationFailedException, AnswerNotFoundException {
         UserAuthTokenEntity userAuthEntity = userDao.getUserAuthToken(authorization);
@@ -122,6 +149,15 @@ public class AnswerService {
         answerDao.userAnswerDelete(answerId);
     }
 
+    /**
+     * This method helps to get all answer for the question
+     *
+     * @param questionId question id for the answers to be retrieved
+     * @param authorization auth token of user
+     * @return list of answer entities
+     * @throws AuthorizationFailedException if user auth validation failed
+     * @throws InvalidQuestionException if question validation failed
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public List<AnswerEntity> getAllAnswersToQuestion(final String questionId, final String authorization) throws AuthorizationFailedException, InvalidQuestionException {
         UserAuthTokenEntity userAuthEntity = userDao.getUserAuthToken(authorization);
