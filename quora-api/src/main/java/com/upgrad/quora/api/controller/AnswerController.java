@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * AnswerController - RestController for handling all the answers to the question in quora applications.
+ */
 @RestController
 @RequestMapping("/")
 public class AnswerController {
@@ -22,6 +25,16 @@ public class AnswerController {
     @Autowired
     private AnswerService answerService;
 
+    /**
+     * createAnswer - creates new answer for the question
+     *
+     * @param answerRequest - request model for new answer of a question
+     * @param questionId - question id for which the answer is posted
+     * @param authorization - authorization token of user
+     * @return response entity of answer response
+     * @throws AuthorizationFailedException throws when authorization failed
+     * @throws InvalidQuestionException throws when question is not available
+     */
     @RequestMapping(method = RequestMethod.POST, path = "/question/{questionId}/answer/create", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<AnswerResponse> createAnswer(final AnswerRequest answerRequest, @PathVariable("questionId") final String questionId, @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, InvalidQuestionException {
 
@@ -35,6 +48,16 @@ public class AnswerController {
         return new ResponseEntity<AnswerResponse>(answerResponse, HttpStatus.CREATED);
     }
 
+    /**
+     * editAnswerContent - edits answer content of the question
+     *
+     * @param answerEditRequest - request model existing answer of a question
+     * @param answerId - question id for which the answer is edited.
+     * @param authorization - authorization token of user
+     * @return response entity of answer edit response
+     * @throws AuthorizationFailedException throws when authorization failed
+     * @throws AnswerNotFoundException throws when answer is not available
+     */
     @RequestMapping(method = RequestMethod.PUT, path = "/answer/edit/{answerId}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<AnswerEditResponse> editAnswerContent(final AnswerEditRequest answerEditRequest, @PathVariable("answerId") final String answerId, @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, AnswerNotFoundException {
 
@@ -49,6 +72,15 @@ public class AnswerController {
         return new ResponseEntity<AnswerEditResponse>(answerEditResponse, HttpStatus.OK);
     }
 
+    /**
+     * deleteAnswer - deletes the answer for the question
+     *
+     * @param answerId - answer id to be deleted
+     * @param authorization - authorization token of user
+     * @return response entity of answer delete response
+     * @throws AuthorizationFailedException throws when authorization failed
+     * @throws AnswerNotFoundException throws when answer is not available
+     */
     @RequestMapping(method = RequestMethod.DELETE, path = "/answer/delete/{answerId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<AnswerDeleteResponse> deleteAnswer(@PathVariable("answerId") final String answerId, @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, AnswerNotFoundException {
 
@@ -60,6 +92,15 @@ public class AnswerController {
         return new ResponseEntity<AnswerDeleteResponse>(answerDeleteResponse, HttpStatus.OK);
     }
 
+    /**
+     * getAllAnswersToQuestion - gets all answer to the given question id.
+     *
+     * @param questionId - question id for which answers should be retrieved
+     * @param authorization - authorization token of user
+     * @return response entity of list of answer details response
+     * @throws AuthorizationFailedException throws when authorization failed
+     * @throws InvalidQuestionException throws when question is not available
+     */
     @RequestMapping(method = RequestMethod.GET, path = "/answer/all/{questionId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<AnswerDetailsResponse>> getAllAnswersToQuestion (@PathVariable("questionId") final String questionId, @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, InvalidQuestionException {
 

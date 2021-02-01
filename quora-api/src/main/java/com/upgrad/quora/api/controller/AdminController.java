@@ -20,6 +20,8 @@ public class AdminController {
     private UserAdminBusinessService userAdminBusinessService;
 
     /**
+     * userDelete - deletes an user from the application
+     *
      * @param  userUuid the first {@code String} to delete the particular user.
      * @param  accessToken the second {@code String} to check if the access is available.
      * @return ResponseEntity is returned with Status OK.

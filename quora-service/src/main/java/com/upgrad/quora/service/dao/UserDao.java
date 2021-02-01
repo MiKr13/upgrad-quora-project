@@ -74,11 +74,23 @@ public class UserDao {
         }
     }
 
+    /**
+     * This method helps to create auth token
+     *
+     * @param userAuthTokenEntity user auth token entity
+     * @return persisted user auth token entity
+     */
     public UserAuthTokenEntity createAuthToken(final UserAuthTokenEntity userAuthTokenEntity) {
         entityManager.persist(userAuthTokenEntity);
         return userAuthTokenEntity;
     }
 
+    /**
+     * This method helps to retrieve the user auth token entity
+     *
+     * @param accessToken authentication token of user
+     * @return persisted user auth token entity
+     */
     public UserAuthTokenEntity getUserAuthToken(final String accessToken) {
         try {
             return entityManager.createNamedQuery("userAuthTokenByAccessToken", UserAuthTokenEntity.class)
@@ -89,6 +101,13 @@ public class UserDao {
         }
     }
 
+    /**
+     * This method helps to authenticate user
+     *
+     * @param userName username of the user entity
+     * @param password password of the user entity
+     * @return user entity
+     */
     public UserEntity authenticateUser(final String userName, final String password) {
         try {
             return entityManager.createNamedQuery("authenticateUserQuery", UserEntity.class)
@@ -98,10 +117,21 @@ public class UserDao {
         }
     }
 
+    /**
+     * This method helps to update user entity
+     *
+     * @param updatedUserEntity user entity to be updated
+     */
     public void updateUser(final UserEntity updatedUserEntity) {
         entityManager.merge(updatedUserEntity);
     }
 
+    /**
+     * This method helps to update the user log out.
+     *
+     * @param userAuthTokenEntity user auth token entity
+     * @return logged out user auth token entity
+     */
     public UserAuthTokenEntity updateUserLogOut(final UserAuthTokenEntity userAuthTokenEntity) {
         try {
             return entityManager.merge(userAuthTokenEntity);
@@ -110,6 +140,11 @@ public class UserDao {
         }
     }
 
+    /**
+     * This method helps to delete an user
+     *
+     * @param uuid uuid of an user to be deleted
+     */
     public void deleteUser(String uuid) {
         UserEntity userEntity = getUserByUuid(uuid);
         entityManager.remove(userEntity);

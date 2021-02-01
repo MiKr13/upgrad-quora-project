@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class Question {
+public class QuestionService {
 
     @Autowired
     private QuestionDao questionDao;
@@ -24,6 +24,14 @@ public class Question {
     @Autowired
     private UserDao userDao;
 
+    /**
+     * This method helps to create question
+     *
+     * @param questionEntity question entity to be created
+     * @param authorizationToken auth token of user
+     * @return created question entity
+     * @throws AuthorizationFailedException if user auth validation failed
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public QuestionEntity createQuestion(QuestionEntity questionEntity, final String authorizationToken) throws AuthorizationFailedException {
         UserAuthTokenEntity userAuthEntity = userDao.getUserAuthToken(authorizationToken);
@@ -42,6 +50,13 @@ public class Question {
         return questionDao.createQuestion(questionEntity);
     }
 
+    /**
+     * This method helps to get all questions
+     *
+     * @param authorization auth token of user
+     * @return list of question entities
+     * @throws AuthorizationFailedException if user auth validation failed
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public List<QuestionEntity> getAllQuestions(final String authorization) throws AuthorizationFailedException {
         UserAuthTokenEntity userAuthEntity = userDao.getUserAuthToken(authorization);
@@ -59,6 +74,15 @@ public class Question {
         return questionDao.getAllQuestions();
     }
 
+    /**
+     * This method helps to update the content of question entity
+     *
+     * @param questionEntity modified question entity
+     * @param authorizationToken auth token of user
+     * @return updated question entity
+     * @throws AuthorizationFailedException if user auth validation failed
+     * @throws InvalidQuestionException if question validation failed
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public QuestionEntity editQuestionContent(final QuestionEntity questionEntity, final String authorizationToken) throws AuthorizationFailedException, InvalidQuestionException {
         UserAuthTokenEntity userAuthEntity = userDao.getUserAuthToken(authorizationToken);
@@ -93,6 +117,14 @@ public class Question {
         return questionDao.editQuestionContent(questionEntity);
     }
 
+    /**
+     * This method helps to delete question
+     *
+     * @param questionId question id to be deleted
+     * @param authorization auth token of user
+     * @throws InvalidQuestionException if question validation failed
+     * @throws AuthorizationFailedException if user auth validation failed
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public void userQuestionDelete(final String questionId, final String authorization) throws InvalidQuestionException, AuthorizationFailedException {
         UserAuthTokenEntity userAuthEntity = userDao.getUserAuthToken(authorization);
@@ -122,7 +154,15 @@ public class Question {
         questionDao.userQuestionDelete(questionId);
     }
 
-
+    /**
+     * This method helps to get all questions by user
+     *
+     * @param userId id of an user to get all questions
+     * @param authorizationToken auth token of user
+     * @return list of question entities
+     * @throws AuthorizationFailedException if user auth validation failed
+     * @throws UserNotFoundException if user validation failed
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public List<QuestionEntity> getAllQuestionsByUser(final String userId, final String authorizationToken) throws AuthorizationFailedException, UserNotFoundException {
         UserAuthTokenEntity userAuthEntity = userDao.getUserAuthToken(authorizationToken);

@@ -4,12 +4,10 @@ import com.upgrad.quora.service.dao.UserDao;
 import com.upgrad.quora.service.entity.UserAuthTokenEntity;
 import com.upgrad.quora.service.entity.UserEntity;
 import com.upgrad.quora.service.exception.AuthenticationFailedException;
+import com.upgrad.quora.service.exception.SignOutRestrictedException;
+import com.upgrad.quora.service.exception.SignUpRestrictedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import com.upgrad.quora.service.entity.UserAuthTokenEntity;
-import com.upgrad.quora.service.exception.SignOutRestrictedException;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -68,18 +66,37 @@ public class AuthenticationService {
         }
     }
 
+    /**
+     * This method helps to signup an user
+     *
+     * @param userEntity the user entity for signup
+     *
+     * @return signed up user entity
+     *
+     * @throws SignUpRestrictedException if user signup failed
+     */
     @Transactional(propagation = Propagation.REQUIRED)
-    public UserEntity signup(UserEntity userEntity) {
+    public UserEntity signup(UserEntity userEntity) throws SignUpRestrictedException {
         String[] encryptedText = cryptographyProvider.encrypt(userEntity.getPassword());
         userEntity.setSalt(encryptedText[0]);
         userEntity.setPassword(encryptedText[1]);
+
+        if (userDao.getUserByUserName(userEntity.getUserName()) != null) {
+            throw new SignUpRestrictedException("SGR-001", "Usename already exists");
+        }
+        if (userDao.getUserByEmail(userEntity.getEmail()) != null) {
+            throw new SignUpRestrictedException("SGR-002", "Email already exists");
+        }
 
         return userDao.createUser(userEntity);
     }
 
     /**
+     * This method helps to signout an user
+     *
      * @param accessToken the first {@code String} to signout a user.
-     * @return List of QuestionEntity objects.
+     *
+     * @return returns user auth token entity
      */
     @Transactional(propagation = Propagation.REQUIRED)
     public UserAuthTokenEntity signOutService(String accessToken) throws SignOutRestrictedException {
